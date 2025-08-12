@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>HELLO 星空</title>
+<title>HELLO WORLD 星空</title>
 <style>
-  /* 黑色背景 */
   body, html {
     margin: 0; padding: 0;
     height: 100%;
@@ -16,7 +15,6 @@
     align-items: center;
   }
 
-  /* 中央文字，带闪烁 */
   #hello {
     color: white;
     font-size: 6rem;
@@ -24,6 +22,8 @@
     z-index: 10;
     user-select: none;
     animation: hello-twinkle 2.5s infinite ease-in-out;
+    text-align: center; /* 文字居中 */
+    line-height: 1.2; /* 行高稍微紧凑点 */
   }
 
   @keyframes hello-twinkle {
@@ -31,7 +31,6 @@
     50% { opacity: 0.4; }
   }
 
-  /* 星空容器 */
   #stars {
     position: fixed;
     top: 0; left: 0;
@@ -41,7 +40,6 @@
     z-index: 1;
   }
 
-  /* 单个星星样式 */
   .star {
     position: absolute;
     background: white;
@@ -50,7 +48,6 @@
     animation: twinkle 2s infinite ease-in-out;
   }
 
-  /* 不同星星闪烁不同步 */
   .star:nth-child(odd) {
     animation-duration: 3s;
   }
@@ -60,7 +57,6 @@
     animation-delay: 1s;
   }
 
-  /* 闪烁动画 */
   @keyframes twinkle {
     0%, 100% { opacity: 0.8; }
     50% { opacity: 0.2; }
@@ -68,11 +64,12 @@
 </style>
 </head>
 <body>
-  <div id="hello">HELLO</div>
+  <div id="hello">
+    HELLO<br />WORLD
+  </div>
   <div id="stars"></div>
 
 <script>
-  // 生成随机星星
   const starsContainer = document.getElementById('stars');
   const starCount = 150;
 
@@ -80,16 +77,13 @@
     const star = document.createElement('div');
     star.classList.add('star');
 
-    // 大小随机1-3px
     const size = Math.random() * 2 + 1;
     star.style.width = size + 'px';
     star.style.height = size + 'px';
 
-    // 位置随机
     star.style.top = Math.random() * 100 + '%';
     star.style.left = Math.random() * 100 + '%';
 
-    // 动画延迟随机
     star.style.animationDelay = (Math.random() * 2) + 's';
 
     starsContainer.appendChild(star);
