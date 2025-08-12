@@ -5,36 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>HELLO WORLD 对齐星空</title>
 <style>
-  body, html {
+  html, body {
     margin: 0; padding: 0;
     height: 100%;
     background: black;
-    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
   }
 
   #container {
     display: grid;
-    grid-template-columns: repeat(5, 1.5em); /* 5 列，对应字母数 */
-    grid-template-rows: auto auto;
-    gap: 0.2em 0.5em;
+    grid-template-columns: repeat(5, 3rem);
+    grid-template-rows: 1fr 1fr;
+    gap: 0.5rem 0;
     user-select: none;
     z-index: 10;
   }
 
   .letter {
+    font-family: monospace, monospace;
+    font-size: 3rem;
     color: white;
-    font-size: 6rem;
-    font-family: monospace, monospace; /* 用等宽字体保证字母宽度一致 */
     text-align: center;
-    animation: hello-twinkle 2.5s infinite ease-in-out;
+    animation: twinkle 2.5s infinite ease-in-out;
   }
 
-  @keyframes hello-twinkle {
+  @keyframes twinkle {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+    50% { opacity: 0.3; }
   }
 
   #stars {
@@ -51,7 +51,7 @@
     background: white;
     border-radius: 50%;
     opacity: 0.8;
-    animation: twinkle 2s infinite ease-in-out;
+    animation: starTwinkle 2s infinite ease-in-out;
   }
 
   .star:nth-child(odd) {
@@ -63,7 +63,7 @@
     animation-delay: 1s;
   }
 
-  @keyframes twinkle {
+  @keyframes starTwinkle {
     0%, 100% { opacity: 0.8; }
     50% { opacity: 0.2; }
   }
@@ -77,7 +77,6 @@
     <div class="letter">L</div>
     <div class="letter">L</div>
     <div class="letter">O</div>
-
     <!-- WORLD -->
     <div class="letter">W</div>
     <div class="letter">O</div>
