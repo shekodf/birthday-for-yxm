@@ -1,95 +1,4 @@
-<!-- <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A，生日快乐！</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(120deg, #ffecd2, #fcb69f);
-            text-align: center;
-            padding: 50px;
-            color: #333;
-        }
-        h1 {
-            font-size: 3em;
-            color: #d94f4f;
-        }
-        .balloons {
-            font-size: 2em;
-        }
-    </style>
-</head>
-<body>
-    <div class="balloons">🎈🎉🎂</div>
-    <h1>A，生日快乐！</h1>
-    <p>愿你今天比昨天更快乐，明天比今天更幸福！</p>
-    <div class="balloons">🎁💖✨</div>
-</body>
-</html>
- -->
-
-
-<!-- <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>生日快乐，A！🎉</title>
-  <style>
-    body {
-      background: linear-gradient(135deg, #fceabb, #f8b500);
-      font-family: 'Arial', sans-serif;
-      color: #333;
-      text-align: center;
-      padding: 50px 20px;
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 0.2em;
-      color: #d94f4f;
-      text-shadow: 1px 1px 5px #fff;
-    }
-    p {
-      font-size: 1.5rem;
-      margin-top: 0;
-      margin-bottom: 1.5em;
-    }
-    .cake {
-      font-size: 6rem;
-      animation: bounce 1.5s infinite alternate;
-    }
-    @keyframes bounce {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-20px); }
-    }
-    footer {
-      margin-top: 3em;
-      font-size: 0.9rem;
-      color: #555;
-    }
-  </style>
-</head>
-<body>
-  <h1>生日快乐，A！🎂🎉</h1>
-  <p>愿你的每一天都充满欢笑与幸福，梦想成真！</p>
-  <div class="cake">🎂</div>
-  <footer>由 GitHub Pages 托管 ❤️</footer>
-</body>
-</html>
-
-
- -->
-
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -107,13 +16,19 @@
     align-items: center;
   }
 
-  /* 中央文字 */
+  /* 中央文字，带闪烁 */
   #hello {
     color: white;
     font-size: 6rem;
     font-family: Arial, sans-serif;
     z-index: 10;
     user-select: none;
+    animation: hello-twinkle 2.5s infinite ease-in-out;
+  }
+
+  @keyframes hello-twinkle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
   }
 
   /* 星空容器 */
