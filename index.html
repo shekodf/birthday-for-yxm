@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>HELLO WORLD 星空</title>
+<title>HELLO WORLD 对齐星空</title>
 <style>
   body, html {
     margin: 0; padding: 0;
@@ -15,15 +15,21 @@
     align-items: center;
   }
 
-  #hello {
+  #container {
+    display: grid;
+    grid-template-columns: repeat(5, 1.5em); /* 5 列，对应字母数 */
+    grid-template-rows: auto auto;
+    gap: 0.2em 0.5em;
+    user-select: none;
+    z-index: 10;
+  }
+
+  .letter {
     color: white;
     font-size: 6rem;
-    font-family: Arial, sans-serif;
-    z-index: 10;
-    user-select: none;
+    font-family: monospace, monospace; /* 用等宽字体保证字母宽度一致 */
+    text-align: center;
     animation: hello-twinkle 2.5s infinite ease-in-out;
-    text-align: center; /* 文字居中 */
-    line-height: 1.2; /* 行高稍微紧凑点 */
   }
 
   @keyframes hello-twinkle {
@@ -64,9 +70,22 @@
 </style>
 </head>
 <body>
-  <div id="hello">
-    HELLO<br />WORLD
+  <div id="container">
+    <!-- HELLO -->
+    <div class="letter">H</div>
+    <div class="letter">E</div>
+    <div class="letter">L</div>
+    <div class="letter">L</div>
+    <div class="letter">O</div>
+
+    <!-- WORLD -->
+    <div class="letter">W</div>
+    <div class="letter">O</div>
+    <div class="letter">R</div>
+    <div class="letter">L</div>
+    <div class="letter">D</div>
   </div>
+
   <div id="stars"></div>
 
 <script>
