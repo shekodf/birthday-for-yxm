@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouXMemories</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://cdn.luogu.com.cn/upload/image_hosting/3yg7l856.png" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,198 +14,231 @@
         }
         
         body {
-            background: radial-gradient(ellipse at center, #0a0e20 0%, #000000 70%);
-            height: 100vh;
+            font-family: 'Cinzel', serif;
+            background-color: #000;
+            color: #fff;
+            min-height: 100vh;
             overflow: hidden;
-            font-family: 'Cormorant Garamond', serif;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
-        .poem {
+        /* 星空容器 */
+        .starfield {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 10;
-            width: 90%;
-            max-width: 800px;
-            padding: 30px;
-            backdrop-filter: blur(2px);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
         }
         
-        .line {
-            font-size: 3.5rem;
-            line-height: 1.4;
-            background: linear-gradient(to right, #f6e8cf 0%, #e4d5b7 30%, #d4c19d 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
-            opacity: 0;
-            font-weight: 300;
-            margin-bottom: 1.8rem;
-            font-style: italic;
-            animation: fadeIn 2.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-        }
-        
-        .line:nth-child(1) {
-            animation-delay: 0.5s;
-        }
-        
-        .line:nth-child(2) {
-            animation-delay: 1.2s;
-        }
-        
+        /* 星星元素 */
         .star {
             position: absolute;
-            background-color: #ffffff;
+            background-color: #fff;
             border-radius: 50%;
-            pointer-events: none;
-            animation: twinkle 2s infinite alternate;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+            opacity: 0;
         }
         
-        @keyframes trajectory {
+        /* 中央文字区域 */
+        .text-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            opacity: 0;
+            animation: fadeIn 3s forwards 1s;
+            perspective: 1000px;
+        }
+        
+        .text-line {
+            font-size: 2em;
+            line-height: 1;
+            margin: 1.5rem 0;
+            letter-spacing: 0.05em;
+            font-weight: 10;
+            color: #e6e6fa;
+            text-shadow: 0 0 15px rgba(230, 230, 250, 0.3);
+            transform: translateY(30px);
+            animation: floatUp 2s forwards;
+        }
+        
+        .first-line {
+            animation-delay: 1.5s;
+            /* font-style: italic; */
+        }
+        
+        .second-line {
+            animation-delay: 3.5s;
+            /* font-style: italic; */
+        }
+        
+        /* 文字装饰 */
+        .text-decoration {
+            position: absolute;
+            opacity: 0.3;
+        }
+        
+        .decoration-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+        
+        .decoration-circle {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        /* 签名 */
+        .signature {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+            letter-spacing: 0.1em;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeIn 3s forwards 5s;
+        }
+        
+        /* 动画定义 */
+        @keyframes shootingStar {
             0% {
-                transform: translateX(-100px) translateY(0) scale(0.8);
+                transform: translate(-100px, 0) rotate(0deg);
                 opacity: 0;
             }
             20% {
-                opacity: 0.85;
+                opacity: 1;
             }
             80% {
-                opacity: 0.85;
+                opacity: 1;
             }
             100% {
-                transform: translateX(calc(100vw + 100px)) translateY(120px) scale(0.8);
+                transform: translate(100vw, 50vh) rotate(20deg);
                 opacity: 0;
-            }
-        }
-        
-        @keyframes twinkle {
-            0% { 
-                box-shadow: 0 0 4px #fff, 0 0 8px rgba(255, 255, 255, 0.7);
-            }
-            100% { 
-                box-shadow: 0 0 8px #fff, 0 0 16px rgba(255, 255, 255, 0.9);
             }
         }
         
         @keyframes fadeIn {
-            0% { 
-                opacity: 0;
-                transform: translateY(25px);
-            }
-            100% { 
-                opacity: 1;
+            to { opacity: 1; }
+        }
+        
+        @keyframes floatUp {
+            to { 
                 transform: translateY(0);
+                opacity: 1;
             }
         }
         
-        @media (max-width: 900px) {
-            .line {
-                font-size: 2.8rem;
-            }
-        }
-        
-        @media (max-width: 600px) {
-            .line {
-                font-size: 2.2rem;
-                line-height: 1.35;
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .text-line {
+                font-size: 2.5rem;
             }
         }
         
         @media (max-width: 480px) {
-            .line {
-                font-size: 1.9rem;
+            .text-line {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="poem">
-        <div class="line">you played silently,</div>
-        <div class="line">axed memories bleeding from strings</div>
+    <!-- 星空背景 -->
+    <div class="starfield" id="starfield"></div>
+    
+    <!-- 文字装饰元素 -->
+    <div class="text-decoration" style="top: 30%; left: 10%; width: 80px;">
+        <div class="decoration-line"></div>
+    </div>
+    <div class="text-decoration" style="bottom: 30%; right: 10%; width: 120px;">
+        <div class="decoration-line"></div>
+    </div>
+    <div class="text-decoration decoration-circle" style="top: 35%; right: 15%;"></div>
+    <div class="text-decoration decoration-circle" style="bottom: 35%; left: 15%;"></div>
+    
+    <!-- 中央文字 -->
+    <div class="text-container">
+        <p class="text-line first-line">you played silently,</p>
+        <p class="text-line second-line">axed memories bleeding from strings</p>
     </div>
     
+    <!-- 签名 -->
+    <p class="signature">for memories that linger in the corridor of time</p>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.body;
+        // 创建星空背景
+        const starfield = document.getElementById('starfield');
+        
+        // 创建静态星星
+        function createStaticStars() {
+            const staticStarsCount = 300;
             
-            // 创建星星的函数
-            function createStar() {
+            for (let i = 0; i < staticStarsCount; i++) {
                 const star = document.createElement('div');
-                star.className = 'star';
+                star.classList.add('star');
                 
-                // 随机大小 (1-3px)
-                const size = 0.8 + Math.random() * 2.2;
+                // 随机大小
+                const size = Math.random() * 2;
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
                 
-                // 随机起始位置（左侧屏幕外）
-                const startY = Math.random() * window.innerHeight;
-                star.style.left = `-30px`;
-                star.style.top = `${startY}px`;
+                // 随机位置
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
                 
-                // 随机轨迹弧度
-                const curveHeight = 40 + Math.random() * 160;
-                const curveDirection = Math.random() > 0.5 ? 1 : -1;
+                // 随机亮度
+                star.style.opacity = Math.random() * 0.8 + 0.2;
                 
-                // 随机动画时长 (5-12秒)
-                const duration = 5 + Math.random() * 7;
+                starfield.appendChild(star);
+            }
+        }
+        
+        // 创建动态流星
+        function createShootingStars() {
+            setInterval(() => {
+                const shootingStar = document.createElement('div');
+                shootingStar.classList.add('star');
                 
-                // 应用轨迹动画
-                star.style.animation = `
-                    trajectory ${duration}s cubic-bezier(0.4, 0, 0.2, 1) forwards,
-                    twinkle 1.8s ease-in-out infinite alternate
-                `;
+                // 流星大小
+                const size = Math.random() * 2 + 1;
+                shootingStar.style.width = `${size}px`;
+                shootingStar.style.height = `${size}px`;
                 
-                // 应用弧形轨迹
-                star.style.transform = `translateY(${curveDirection * curveHeight}px)`;
+                // 随机起始位置
+                const startY = Math.random() * 100;
+                shootingStar.style.top = `${startY}%`;
+                shootingStar.style.left = `-20px`;
                 
-                container.appendChild(star);
+                // 随机速度
+                const duration = Math.random() * 4 + 2;
                 
-                // 动画结束后移除星星
+                // 动画设置
+                shootingStar.style.animation = `shootingStar ${duration}s linear forwards`;
+                
+                starfield.appendChild(shootingStar);
+                
+                // 动画结束后移除元素
                 setTimeout(() => {
-                    if (star.parentNode === container) {
-                        container.removeChild(star);
-                    }
+                    shootingStar.remove();
                 }, duration * 1000);
-            }
-            
-            // 初始创建一批星星
-            function initStars() {
-                const starsCount = Math.floor(window.innerWidth * window.innerHeight / 4000);
-                for (let i = 0; i < starsCount; i++) {
-                    setTimeout(() => {
-                        createStar();
-                    }, i * 150);
-                }
-            }
-            
-            // 持续创建新星星
-            function startStarCreation() {
-                setInterval(() => {
-                    if (Math.random() > 0.3) {
-                        createStar();
-                    }
-                }, 300);
-            }
-            
-            initStars();
-            startStarCreation();
-            
-            // 窗口大小调整时重新创建星星
-            window.addEventListener('resize', () => {
-                // 清除现有的星星
-                const stars = document.querySelectorAll('.star');
-                stars.forEach(star => star.remove());
-                
-                // 重新初始化
-                initStars();
-            });
-        });
+            }, 500);
+        }
+        
+        // 初始化星空
+        createStaticStars();
+        createShootingStars();
     </script>
 </body>
 </html>
