@@ -2,18 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>YouXMemories - Mobile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouXMemories</title>
     <link rel="icon" href="https://cdn.luogu.com.cn/upload/image_hosting/3yg7l856.png" type="image/x-icon" />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
         }
         
         body {
@@ -21,24 +18,22 @@
             background-color: #000;
             color: #fff;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
         }
         
         /* 星空容器 */
         .starfield {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
             overflow: hidden;
-            pointer-events: none;
         }
         
         /* 星星元素 */
@@ -46,9 +41,8 @@
             position: absolute;
             background-color: #fff;
             border-radius: 50%;
-            box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
             opacity: 0;
-            animation: twinkle 8s infinite ease-in-out;
         }
         
         /* 中央文字区域 */
@@ -56,81 +50,65 @@
             position: relative;
             z-index: 10;
             text-align: center;
-            padding: 30px 20px;
-            width: 95%;
-            max-width: 500px;
+            padding: 2rem;
+            max-width: 800px;
             opacity: 0;
             animation: fadeIn 3s forwards 1s;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(8px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            perspective: 1000px;
         }
         
         .text-line {
-            font-size: 1.8rem;
-            line-height: 1.4;
-            margin: 1.2rem 0;
-            letter-spacing: 0.03em;
-            font-weight: 300;
+            font-size: 2em;
+            line-height: 1;
+            margin: 1.5rem 0;
+            letter-spacing: 0.05em;
+            font-weight: 10;
             color: #e6e6fa;
-            text-shadow: 0 0 12px rgba(230, 230, 250, 0.5);
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
+            text-shadow: 0 0 15px rgba(230, 230, 250, 0.3);
+            transform: translateY(30px);
+            animation: floatUp 2s forwards;
         }
         
-        .word {
-            margin: 0 4px 8px;
-            opacity: 0;
-            transform: translateY(20px);
-            display: inline-block;
-            white-space: nowrap;
+        .first-line {
+            animation-delay: 1.5s;
+            /* font-style: italic; */
         }
         
-        .first-line .word:nth-child(1) { animation-delay: 1.5s; }
-        .first-line .word:nth-child(2) { animation-delay: 2s; }
-        .first-line .word:nth-child(3) { animation-delay: 2.5s; }
-        
-        .second-line .word:nth-child(1) { animation-delay: 3.5s; }
-        .second-line .word:nth-child(2) { animation-delay: 4s; }
-        .second-line .word:nth-child(3) { animation-delay: 4.5s; }
-        .second-line .word:nth-child(4) { animation-delay: 5s; }
+        .second-line {
+            animation-delay: 3.5s;
+            /* font-style: italic; */
+        }
         
         /* 文字装饰 */
         .text-decoration {
             position: absolute;
-            opacity: 0.2;
+            opacity: 0.3;
         }
         
         .decoration-line {
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
         }
         
         .decoration-circle {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background-color: rgba(255,255,255,0.15);
+            background-color: rgba(255,255,255,0.2);
         }
         
         /* 签名 */
         .signature {
             position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
+            bottom: 30px;
+            right: 30px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.5);
             font-style: italic;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             z-index: 10;
             opacity: 0;
-            animation: fadeIn 3s forwards 6s;
-            font-family: 'Cormorant Garamond', serif;
-            padding: 0 20px;
+            animation: fadeIn 3s forwards 5s;
         }
         
         /* 动画定义 */
@@ -146,152 +124,54 @@
                 opacity: 1;
             }
             100% {
-                transform: translate(150vw, 50vh) rotate(20deg);
+                transform: translate(100vw, 50vh) rotate(20deg);
                 opacity: 0;
             }
-        }
-        
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.9; transform: scale(1.1); }
         }
         
         @keyframes fadeIn {
             to { opacity: 1; }
         }
         
-        @keyframes wordAppear {
+        @keyframes floatUp {
             to { 
                 transform: translateY(0);
                 opacity: 1;
             }
         }
         
-        .mobile-title {
-            position: absolute;
-            top: 30px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 1.2rem;
-            letter-spacing: 0.3rem;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.7);
-            z-index: 100;
-            opacity: 0;
-            animation: fadeIn 3s forwards 0.5s;
-        }
-        
-        .divider {
-            height: 1px;
-            width: 60%;
-            margin: 20px auto;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-            opacity: 0;
-            animation: fadeIn 3s forwards 5.5s;
-        }
-        
-        /* 响应式设计 - 重点优化 */
+        /* 响应式设计 */
         @media (max-width: 768px) {
-            .text-container {
-                padding: 25px 15px;
-                max-width: 90%;
-            }
-            
             .text-line {
-                font-size: 1.6rem;
-            }
-            
-            .word {
-                margin: 0 3px 6px;
+                font-size: 2.5rem;
             }
         }
         
         @media (max-width: 480px) {
             .text-line {
-                font-size: 1.4rem;
-                line-height: 1.5;
-            }
-            
-            .mobile-title {
-                font-size: 1rem;
-                top: 20px;
-            }
-            
-            .signature {
-                font-size: 0.8rem;
-                bottom: 15px;
-            }
-            
-            .divider {
-                margin: 15px auto;
-            }
-        }
-        
-        @media (max-width: 360px) {
-            .text-line {
-                font-size: 1.2rem;
-            }
-            
-            .word {
-                margin: 0 2px 4px;
-            }
-        }
-        
-        /* 横屏优化 */
-        @media (orientation: landscape) and (max-height: 500px) {
-            .text-container {
-                padding: 15px 10px;
-                max-width: 80%;
-            }
-            
-            .text-line {
-                font-size: 1.3rem;
-                margin: 0.8rem 0;
-            }
-            
-            .divider {
-                margin: 10px auto;
-            }
-            
-            .signature {
-                bottom: 10px;
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="mobile-title">Stellar Memories</div>
-    
     <!-- 星空背景 -->
     <div class="starfield" id="starfield"></div>
     
     <!-- 文字装饰元素 -->
-    <div class="text-decoration" style="top: 25%; left: 10%; width: 60px;">
+    <div class="text-decoration" style="top: 30%; left: 10%; width: 80px;">
         <div class="decoration-line"></div>
     </div>
-    <div class="text-decoration" style="bottom: 25%; right: 10%; width: 80px;">
+    <div class="text-decoration" style="bottom: 30%; right: 10%; width: 120px;">
         <div class="decoration-line"></div>
     </div>
-    <div class="text-decoration decoration-circle" style="top: 30%; right: 12%;"></div>
-    <div class="text-decoration decoration-circle" style="bottom: 30%; left: 12%;"></div>
+    <div class="text-decoration decoration-circle" style="top: 35%; right: 15%;"></div>
+    <div class="text-decoration decoration-circle" style="bottom: 35%; left: 15%;"></div>
     
     <!-- 中央文字 -->
     <div class="text-container">
-        <div class="text-line first-line">
-            <span class="word">you</span>
-            <span class="word">played</span>
-            <span class="word">silently,</span>
-        </div>
-        
-        <div class="divider"></div>
-        
-        <div class="text-line second-line">
-            <span class="word">axed</span>
-            <span class="word">memories</span>
-            <span class="word">bleeding</span>
-            <span class="word">from strings</span>
-        </div>
+        <p class="text-line first-line">you played silently,</p>
+        <p class="text-line second-line">axed memories bleeding from strings</p>
     </div>
     
     <!-- 签名 -->
@@ -301,18 +181,16 @@
         // 创建星空背景
         const starfield = document.getElementById('starfield');
         
-        // 创建静态星星 - 移动端优化版本
+        // 创建静态星星
         function createStaticStars() {
-            // 根据屏幕大小调整星星数量
-            const isMobile = window.innerWidth < 768;
-            const staticStarsCount = isMobile ? 150 : 300;
+            const staticStarsCount = 300;
             
             for (let i = 0; i < staticStarsCount; i++) {
                 const star = document.createElement('div');
                 star.classList.add('star');
                 
-                // 随机大小 - 移动端使用更小的星星
-                const size = Math.random() * (isMobile ? 1.5 : 2) + 0.2;
+                // 随机大小
+                const size = Math.random() * 2;
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
                 
@@ -320,27 +198,21 @@
                 star.style.left = `${Math.random() * 100}%`;
                 star.style.top = `${Math.random() * 100}%`;
                 
-                // 随机亮度和动画延迟
-                star.style.opacity = Math.random() * 0.6 + 0.1;
-                star.style.animationDelay = `${Math.random() * 8}s`;
+                // 随机亮度
+                star.style.opacity = Math.random() * 0.8 + 0.2;
                 
                 starfield.appendChild(star);
             }
         }
         
-        // 创建动态流星 - 移动端优化版本
+        // 创建动态流星
         function createShootingStars() {
-            // 根据屏幕大小调整流星频率
-            const isMobile = window.innerWidth < 768;
-            const intervalTime = isMobile ? 3000 : 1800;
-            
             setInterval(() => {
                 const shootingStar = document.createElement('div');
                 shootingStar.classList.add('star');
                 
-                // 流星大小 - 移动端使用更小的流星
-                const isMobile = window.innerWidth < 768;
-                const size = Math.random() * (isMobile ? 1.5 : 2) + 0.5;
+                // 流星大小
+                const size = Math.random() * 2 + 1;
                 shootingStar.style.width = `${size}px`;
                 shootingStar.style.height = `${size}px`;
                 
@@ -354,7 +226,6 @@
                 
                 // 动画设置
                 shootingStar.style.animation = `shootingStar ${duration}s linear forwards`;
-                shootingStar.style.boxShadow = `0 0 8px rgba(182, 227, 255, ${Math.random() + 0.4})`;
                 
                 starfield.appendChild(shootingStar);
                 
@@ -362,79 +233,12 @@
                 setTimeout(() => {
                     shootingStar.remove();
                 }, duration * 1000);
-            }, intervalTime);
+            }, 500);
         }
         
-        // 设置单词动画
-        function animateWords() {
-            const words = document.querySelectorAll('.word');
-            words.forEach(word => {
-                const delay = parseFloat(getComputedStyle(word).animationDelay);
-                word.style.animation = `wordAppear 1.2s forwards ${delay}s cubic-bezier(0.175, 0.885, 0.32, 1.275)`;
-            });
-        }
-        
-        // 移动端触摸事件处理
-        function handleTouchEvents() {
-            // 阻止默认行为，防止触摸时页面缩放
-            document.addEventListener('touchmove', function(e) {
-                if(e.scale !== 1) { e.preventDefault(); }
-            }, { passive: false });
-            
-            // 添加轻触反馈
-            document.body.addEventListener('touchstart', function() {
-                this.style.backgroundColor = '#0a0a12';
-                setTimeout(() => { this.style.backgroundColor = '#000'; }, 200);
-            });
-        }
-        
-        // 初始化页面
-        window.addEventListener('load', function() {
-            createStaticStars();
-            createShootingStars();
-            animateWords();
-            handleTouchEvents();
-            
-            // 添加重播按钮
-            const replayBtn = document.createElement('div');
-            replayBtn.innerHTML = '↻';
-            replayBtn.style.position = 'fixed';
-            replayBtn.style.bottom = '70px';
-            replayBtn.style.right = '20px';
-            replayBtn.style.zIndex = '100';
-            replayBtn.style.width = '40px';
-            replayBtn.style.height = '40px';
-            replayBtn.style.borderRadius = '50%';
-            replayBtn.style.background = 'rgba(255, 255, 255, 0.15)';
-            replayBtn.style.color = 'rgba(255, 255, 255, 0.7)';
-            replayBtn.style.display = 'flex';
-            replayBtn.style.justifyContent = 'center';
-            replayBtn.style.alignItems = 'center';
-            replayBtn.style.fontSize = '24px';
-            replayBtn.style.cursor = 'pointer';
-            replayBtn.style.opacity = '0';
-            replayBtn.style.transition = 'opacity 0.5s';
-            document.body.appendChild(replayBtn);
-            
-            // 动画结束后显示重播按钮
-            setTimeout(() => {
-                replayBtn.style.opacity = '1';
-            }, 7000);
-            
-            // 重播功能
-            replayBtn.addEventListener('click', function() {
-                location.reload();
-            });
-        });
-        
-        // 窗口大小改变时重新调整
-        window.addEventListener('resize', function() {
-            // 清除现有星星
-            while(starfield.firstChild) {
-                starfield.removeChild(starfield.firstChild);
-            }
-            createStaticStars();
-        });
+        // 初始化星空
+        createStaticStars();
+        createShootingStars();
     </script>
 </body>
 </html>
