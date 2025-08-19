@@ -1,449 +1,244 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YXM · 17</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <title>YouXMemories</title>
+    <link rel="icon" href="https://cdn.luogu.com.cn/upload/image_hosting/3yg7l856.png" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #c19d9c;  /* 玫瑰金 */
-            --secondary-color: #8a7f8e;  /* 灰紫色 */
-            --accent-color: #d8c3a5;  /* 浅金色 */
-            --light-color: #f5f0e5;  /* 米白色 */
-            --dark-color: #1a1a1a;  /* 深灰色 */
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: 'Noto Serif SC', serif;
-            background: var(--dark-color);
-            color: var(--light-color);
+            font-family: 'Cinzel', serif;
+            background-color: #000;
+            color: #fff;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
-            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-
-        /* 粒子背景系统 */
-        #particles-js {
-            position: fixed;
+        
+        /* 星空容器 */
+        .starfield {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
-        }
-
-        .container {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
             z-index: 1;
-        }
-
-        /* 标题样式 */
-        .hero-section {
-            text-align: center;
-            margin-bottom: 4rem;
-            position: relative;
-            padding: 3rem 0;
-        }
-
-        .age-mark {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.1rem;
-            letter-spacing: 0.3em;
-            color: var(--accent-color);
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-        }
-
-        h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 400;
-            font-size: 4.5rem;
-            line-height: 1.1;
-            margin: 2rem 0 1rem;
-            position: relative;
-            display: inline-block;
-            color: var(--light-color);
-        }
-
-        h1 span.highlight {
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: -1.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
-            opacity: 0.6;
-        }
-
-        .subtitle {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
-            color: var(--accent-color);
-            margin-top: 3rem;
-            font-weight: 300;
-            max-width: 600px;
-            margin: 3rem auto 0;
-            line-height: 1.6;
-        }
-
-        /* 内容卡片 */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-            margin: 4rem 0;
-        }
-
-        .card {
-            background: rgba(30, 30, 30, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                inset 0 0 0 1px rgba(193, 157, 156, 0.1);
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            border: 1px solid rgba(120, 120, 120, 0.15);
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 
-                0 12px 40px rgba(0, 0, 0, 0.4),
-                inset 0 0 0 1px rgba(193, 157, 156, 0.3);
-        }
-
-        .card h2 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 500;
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            margin-bottom: 1.8rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(168, 164, 168, 0.15);
-        }
-        
-        .card p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: rgba(245, 240, 229, 0.85);
-            margin-bottom: 1.5rem;
-        }
-        
-        .card p:last-child {
-            margin-bottom: 0;
-        }
-        
-        .signature {
-            text-align: right;
-            font-style: italic;
-            margin-top: 2rem;
-            color: var(--primary-color);
-            font-weight: 500;
-            font-size: 1.1rem;
-        }
-
-        /* 时间线设计 */
-        .timeline {
-            position: relative;
-            padding: 4rem 0;
-            margin: 4rem 0;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            width: 1px;
-            height: 100%;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                var(--primary-color) 30%,
-                var(--accent-color) 70%,
-                transparent 100%
-            );
-        }
-
-        .timeline-item {
-            position: relative;
-            width: 45%;
-            padding: 2.5rem;
-            background: rgba(30, 30, 30, 0.7);
-            border-radius: 16px;
-            margin: 3rem 0;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(120, 120, 120, 0.15);
-        }
-
-        .timeline-item:nth-child(odd) {
-            margin-left: 55%;
-        }
-
-        .timeline-item:nth-child(even) {
-            margin-right: 55%;
-        }
-        
-        .timeline-item h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-        
-        .timeline-item p {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: rgba(245, 240, 229, 0.85);
-        }
-
-        /* 交互元素 */
-        .interactive-btn {
-            display: inline-block;
-            padding: 1.1rem 2.8rem;
-            border: 1px solid var(--primary-color);
-            border-radius: 50px;
-            color: var(--primary-color);
-            background: transparent;
-            text-decoration: none;
-            position: relative;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 400;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            cursor: pointer;
         }
-
-        .interactive-btn:hover {
-            background: rgba(193, 157, 156, 0.08);
-            box-shadow: 0 0 24px rgba(193, 157, 156, 0.2);
-            transform: translateY(-2px);
+        
+        /* 星星元素 */
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+            opacity: 0;
         }
-
-        .footer {
+        
+        /* 中央文字区域 */
+        .text-container {
+            position: relative;
+            z-index: 10;
             text-align: center;
-            margin-top: 6rem;
-            padding-top: 3rem;
-            color: var(--secondary-color);
-            font-size: 0.95rem;
-            font-family: 'Montserrat', sans-serif;
+            padding: 2rem;
+            max-width: 800px;
+            opacity: 0;
+            animation: fadeIn 3s forwards 1s;
+            perspective: 1000px;
         }
         
-        .heart {
-            color: var(--primary-color);
-            display: inline-block;
-            margin: 0 5px;
-            animation: heartbeat 1.2s infinite;
+        .text-line {
+            font-size: 2em;
+            line-height: 1;
+            margin: 1.5rem 0;
+            letter-spacing: 0.05em;
+            font-weight: 10;
+            color: #e6e6fa;
+            text-shadow: 0 0 15px rgba(230, 230, 250, 0.3);
+            transform: translateY(30px);
+            animation: floatUp 2s forwards;
         }
         
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.2); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.2); }
-            70% { transform: scale(1); }
+        .first-line {
+            animation-delay: 1.5s;
+            /* font-style: italic; */
+        }
+        
+        .second-line {
+            animation-delay: 3.5s;
+            /* font-style: italic; */
+        }
+        
+        /* 文字装饰 */
+        .text-decoration {
+            position: absolute;
+            opacity: 0.3;
+        }
+        
+        .decoration-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+        
+        .decoration-circle {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        /* 签名 */
+        .signature {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+            letter-spacing: 0.1em;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeIn 3s forwards 5s;
+        }
+        
+        /* 动画定义 */
+        @keyframes shootingStar {
+            0% {
+                transform: translate(-100px, 0) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(100vw, 50vh) rotate(20deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        @keyframes floatUp {
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
         
         /* 响应式设计 */
         @media (max-width: 768px) {
-            .container {
-                padding: 2rem 1.5rem;
+            .text-line {
+                font-size: 2.5rem;
             }
-            
-            h1 {
-                font-size: 3.2rem;
-            }
-            
-            .subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .card-grid {
-                gap: 1.8rem;
-            }
-            
-            .card {
-                padding: 1.8rem;
-            }
-            
-            .timeline::before {
-                left: 30px;
-            }
-            
-            .timeline-item,
-            .timeline-item:nth-child(odd),
-            .timeline-item:nth-child(even) {
-                width: calc(100% - 60px);
-                margin-left: 30px;
-                margin-right: 0;
+        }
+        
+        @media (max-width: 480px) {
+            .text-line {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div id="particles-js"></div>
+    <!-- 星空背景 -->
+    <div class="starfield" id="starfield"></div>
     
-    <div class="container">
-        <section class="hero-section">
-            <div class="age-mark">Seventeen & Everything</div>
-            <h1>YXM · <span class="highlight">17</span></h1>
-            <p class="subtitle">A journey of 6,209 days, and the better is yet to come.</p>
-        </section>
-
-        <div class="card-grid">
-            <div class="card">
-                <h2>For YXM</h2>
-                <p>可爱的 YXM，17 岁生日快乐！</p>
-                <p>时光飞逝，转眼间我们都来到了梦幻般的年纪。</p>
-                <p>过去的，是我所珍视的，而非遗忘的。</p>
-                <p>感谢你一直以来的真诚和善良，遇见你，是莫大的幸运。</p>
-                <div class="signature">----limr</div>
-            </div>
-            
-            <div class="card">
-                <h2>Shining Era</h2>
-                <p>亲爱的你，17 岁，青春洋溢。</p>
-                <p>愿你保持独特的温暖和智慧，勇敢前行，追逐梦想，在学业上精进，在热爱里发光。</p>
-                <p>愿你的今天比昨天更加快乐，愿你的明天比今天更加幸福。</p>
-                <p>愿你享受这个年纪的自由。</p>
-            </div>
-        </div>
-
-        <section class="timeline">
-            <div class="timeline-item">
-                <h3>Memorable Past</h3>
-                <!-- <p>还记得你在学校演出时惊艳全场的表现吗？我们都在台下为你骄傲。还有那次我们一起完成的创意项目，你的想法总是那么独特而富有创造力。</p> -->
-            </div>
-            <div class="timeline-item">
-                <h3>Boundless Future</h3>
-                <!-- <p>你有着超乎年龄的洞察力和智慧，每次和你交流都让我受益匪浅。相信在未来的日子里，你会找到自己真正热爱的事业，并在那个领域闪闪发光。</p> -->
-            </div>
-        </section>
-
-        <div style="text-align: center; margin-top: 2rem;">
-            <button class="interactive-btn">Capture This Moment</button>
-        </div>
-        
-        <div class="footer">
-            <p>made with <span class="heart">❤</span> by limr | 2025</p>
-        </div>
+    <!-- 文字装饰元素 -->
+    <div class="text-decoration" style="top: 30%; left: 10%; width: 80px;">
+        <div class="decoration-line"></div>
     </div>
+    <div class="text-decoration" style="bottom: 30%; right: 10%; width: 120px;">
+        <div class="decoration-line"></div>
+    </div>
+    <div class="text-decoration decoration-circle" style="top: 35%; right: 15%;"></div>
+    <div class="text-decoration decoration-circle" style="bottom: 35%; left: 15%;"></div>
+    
+    <!-- 中央文字 -->
+    <div class="text-container">
+        <p class="text-line first-line">you played silently,</p>
+        <p class="text-line second-line">axed memories bleeding from strings</p>
+    </div>
+    
+    <!-- 签名 -->
+    <p class="signature">for memories that linger in the corridor of time</p>
 
     <script>
-        // 粒子系统配置
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80 },
-                color: { value: '#c19d9c' },
-                opacity: { value: 0.4 },
-                size: { value: 2.5 },
-                size_random: true,
-                move: {
-                    enable: true,
-                    speed: 1.2,
-                    direction: 'none',
-                    random: true,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#8a7f8e',
-                    opacity: 0.3,
-                    width: 1
-                }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: { 
-                        enable: true, 
-                        mode: 'grab' 
-                    },
-                    onclick: { 
-                        enable: true, 
-                        mode: 'repulse' 
-                    }
-                }
-            }
-        });
-
-        // 卡片悬停效果增强
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.zIndex = '10';
-                this.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(193, 157, 156, 0.4)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.zIndex = '1';
-                this.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(193, 157, 156, 0.1)';
-            });
-        });
+        // 创建星空背景
+        const starfield = document.getElementById('starfield');
         
-        // 按钮点击效果
-        const btn = document.querySelector('.interactive-btn');
-        btn.addEventListener('click', function() {
-            this.textContent = 'Memory Captured  ♥';
-            this.style.backgroundColor = 'rgba(193, 157, 156, 0.15)';
-            this.style.color = '#d8c3a5';
-            this.style.borderColor = 'transparent';
+        // 创建静态星星
+        function createStaticStars() {
+            const staticStarsCount = 300;
             
-            // 创建星形动画
-            for (let i = 0; i < 7; i++) {
-                createStar();
+            for (let i = 0; i < staticStarsCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // 随机大小
+                const size = Math.random() * 2;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // 随机位置
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // 随机亮度
+                star.style.opacity = Math.random() * 0.8 + 0.2;
+                
+                starfield.appendChild(star);
             }
-        });
-        
-        function createStar() {
-            const star = document.createElement('div');
-            star.innerHTML = '✦';
-            star.style.position = 'fixed';
-            star.style.fontSize = '28px';
-            star.style.color = '#c19d9c';
-            star.style.zIndex = '100';
-            star.style.pointerEvents = 'none';
-            star.style.left = '50%';
-            star.style.top = '50%';
-            star.style.opacity = '1';
-            star.style.transform = 'translate(-50%, -50%)';
-            document.body.appendChild(star);
-            
-            // 动画
-            const animation = star.animate([
-                { transform: 'translate(-50%, -50%) scale(0.5)', opacity: 0.8 },
-                { transform: `translate(${Math.random()*100 - 50}vw, ${Math.random()*100 - 50}vh) scale(1.5)`, opacity: 0 }
-            ], {
-                duration: 1800,
-                easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)'
-            });
-            
-            // 结束后移除元素
-            animation.onfinish = () => star.remove();
         }
+        
+        // 创建动态流星
+        function createShootingStars() {
+            setInterval(() => {
+                const shootingStar = document.createElement('div');
+                shootingStar.classList.add('star');
+                
+                // 流星大小
+                const size = Math.random() * 2 + 1;
+                shootingStar.style.width = `${size}px`;
+                shootingStar.style.height = `${size}px`;
+                
+                // 随机起始位置
+                const startY = Math.random() * 100;
+                shootingStar.style.top = `${startY}%`;
+                shootingStar.style.left = `-20px`;
+                
+                // 随机速度
+                const duration = Math.random() * 4 + 2;
+                
+                // 动画设置
+                shootingStar.style.animation = `shootingStar ${duration}s linear forwards`;
+                
+                starfield.appendChild(shootingStar);
+                
+                // 动画结束后移除元素
+                setTimeout(() => {
+                    shootingStar.remove();
+                }, duration * 1000);
+            }, 500);
+        }
+        
+        // 初始化星空
+        createStaticStars();
+        createShootingStars();
     </script>
 </body>
 </html>
